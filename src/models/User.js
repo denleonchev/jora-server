@@ -103,14 +103,14 @@ User.getUserByResetPasswordToken = function (resetPasswordToken) {
 };
 
 User.setConfirmedEmail = function (id, emailConfirmed) {
-  return this.findByIdAndUpdate(id, { emailConfirmed });
+  return this.findByIdAndUpdate(id, { emailConfirmed }, { runValidators: true });
 };
 
 User.setNewPassword = function (id, password) {
   return this.findByIdAndUpdate(id, {
     password,
     resetPasswordTokenUsed: true,
-  });
+  }, { runValidators: true });
 };
 
 User.getUserById = function (id) {
@@ -124,13 +124,13 @@ User.createToken = async function () {
 
 User.setEmailConfirmationToken = async function (id) {
   const emailConfirmationToken = await User.createToken();
-  await this.findByIdAndUpdate(id, { emailConfirmationToken });
+  await this.findByIdAndUpdate(id, { emailConfirmationToken }, { runValidators: true });
   return emailConfirmationToken;
 };
 
 User.setResetPasswordToken = async function (id) {
   const resetPasswordToken = await User.createToken();
-  await this.findByIdAndUpdate(id, { resetPasswordToken, resetPasswordTokenExpires: Date.now() + keys.resetPasswordExpiration, resetPasswordTokenUsed: false });
+  await this.findByIdAndUpdate(id, { resetPasswordToken, resetPasswordTokenExpires: Date.now() + keys.resetPasswordExpiration, resetPasswordTokenUsed: false }, { runValidators: true });
   return resetPasswordToken;
 };
 
