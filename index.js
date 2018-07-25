@@ -48,7 +48,7 @@ app.use((error, req, res, next) => { // eslint-disable-line no-unused-vars
     .send('Something terrible happened on server!');
 });
 
-const port = process.env.port || 5000;
+const port = process.env.PORT || 5000;
 app.listen(port, () => {
   console.log(`The server is running on port ${port}`);
 });
